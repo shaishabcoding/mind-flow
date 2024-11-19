@@ -1,6 +1,7 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import { RootLayout as Layout } from "@/components/layouts/root/Layout";
+import { Toaster } from "sonner";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,6 +29,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Toaster />
         <Layout>{children}</Layout>
       </body>
     </html>

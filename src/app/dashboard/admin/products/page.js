@@ -4,12 +4,15 @@ import { useRef } from "react";
 import { BiSolidEdit } from "react-icons/bi";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import { TbListDetails } from "react-icons/tb";
+import { toast } from "sonner";
 
 export default function ManageProducts() {
   const newProductModalRef = useRef();
   const handleCreateProduct = async (e) => {
     e.preventDefault();
     newProductModalRef.current.close();
+
+    const toastId = toast.loading("Creating new products...");
 
     const newProduct = {
       name: e.target.name.value,
@@ -26,9 +29,10 @@ export default function ManageProducts() {
       },
     });
 
-    const data = await res.json();
-
-    console.log(data);
+    const { message, error } = await res.json();
+    !error
+      ? toast.success(message, { id: toastId })
+      : toast.error(error, { id: toastId });
   };
 
   return (
