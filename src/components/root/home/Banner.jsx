@@ -5,7 +5,6 @@ import "swiper/css";
 import "swiper/css/effect-cards";
 import { Autoplay, EffectCards } from "swiper/modules";
 import { MdShoppingCart } from "react-icons/md";
-import getRandomColor from "@/utils/getRandomColor";
 
 const bannerImgs = [
   {
@@ -70,7 +69,7 @@ export default function Banner() {
               Discover smart yoga products designed to enhance mindfulness and
               well-being.
             </p>
-            <ul className="list-decimal text-gray-600 dark:text-gray-400 mt-4 list-inside pl-6">
+            <ul className="list-decimal text-gray-600 dark:text-gray-300 mt-4 list-inside pl-6">
               <li> Smart sensors for real-time tracking.</li>
               <li> Eco-friendly, durable materials.</li>
               <li>Suitable for beginners and experts alike.</li>

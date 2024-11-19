@@ -1,7 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-// import { HiOutlineLogout } from "react-icons/hi";
-// import { FiLogIn } from "react-icons/fi";
 import { CiDark, CiLight } from "react-icons/ci";
 import Link from "next/link";
 import Image from "next/image";
@@ -46,7 +44,7 @@ const Navbar = () => {
           <Link
             className={
               pathname === url
-                ? "bg-teal-200/50 text-teal-700 font-semibold hover:cursor-not-allowed"
+                ? "bg-teal-200/50 text-teal-700 dark:text-teal-400 dark:bg-teal-700/50 font-semibold hover:cursor-not-allowed"
                 : ""
             }
             href={url}
@@ -55,22 +53,6 @@ const Navbar = () => {
           </Link>
         </li>
       ))}
-
-      {/* 
-      {false ? (
-        <></>
-      ) : (
-        <>
-          <div className="md:hidden">
-            <li>
-              <Link href="/login">Login</Link>
-            </li>
-            <li>
-              <Link href="/register">Register</Link>
-            </li>
-          </div>
-        </>
-      )} */}
     </>
   );
   return (
@@ -131,68 +113,35 @@ const Navbar = () => {
             {isDarkMode ? <CiLight /> : <CiDark />}
           </button>
         </div>
-        {/* {user ? (
-          <>
-            <div className="dropdown dropdown-end">
-              <Image alt="log4"
-              width="20" height="24"
-                tabIndex={0}
-                role="button"
-                title="Profile"
-                alt="Profile Picture"
-                src={user?.photoURL}
-                className="w-10 lg:w-12 bg-white aspect-square object-center mr-2 md:mr-4 rounded-full ring hover:scale-95 ring-primary dark:ring-gray-400"
-              />
-              <ul
-                tabIndex={0}
-                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 mt-4 bg-gradient-to-br from-green-50  dark:from-gray-700 via-pink-50 dark:via-gray-800 to-sky-50 dark:to-gray-700 dark:text-white dark:border-gray-500"
+        <div className="dropdown dropdown-end">
+          <Image
+            alt="log4"
+            width="20"
+            height="24"
+            tabIndex={0}
+            role="button"
+            title="Profile"
+            src="/image-placeholder.jpg"
+            className="w-10 lg:w-12 bg-white aspect-square object-center mr-2 md:mr-4 rounded-full ring ring-teal-400 hover:scale-95 dark:ring-gray-400"
+          />
+          <ul
+            tabIndex={0}
+            className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 mt-4 bg-gradient-to-br from-green-50  dark:from-gray-700 via-pink-50 dark:via-gray-800 to-sky-50 dark:to-gray-700 dark:text-white dark:border-gray-500"
+          >
+            <li className="dark:hover:bg-gray-400/30 rounded-md">
+              <Link
+                href="/admin-dashboard"
+                className={
+                  pathname === "/admin-dashboard"
+                    ? "bg-teal-200/50 text-teal-700 dark:text-teal-400 dark:bg-teal-700/50 font-semibold hover:cursor-not-allowed"
+                    : ""
+                }
               >
-                <span className="mx-4 mt-2 font-semibold">
-                  {user?.displayName}
-                </span>
-                {donationProfile && (
-                  <li>
-                    <label className="font-medium flex gap-2">
-                      Active
-                      <input
-                        defaultChecked={donationProfile?.active}
-                        className="checkbox checkbox-primary"
-                        type="checkbox"
-                        // onChange={handleCheckedChange}
-                      />
-                    </label>
-                  </li>
-                )}
-                <li>
-                  <Link to="/dashboard" className="font-medium">
-                    Dashboard
-                  </Link>
-                </li>
-                <button
-                  className="btn btn-sm text-xs p-0 bg-white dark:bg-gray-500 dark:border-gray-400 dark:text-white"
-                  // onClick={logOut}
-                >
-                  Logout <HiOutlineLogout />
-                </button>
-              </ul>
-            </div>
-          </>
-        ) : (
-          <div className="hidden md:join">
-            <Link
-              to="/login"
-              className="btn join-item bg-white dark:bg-gray-500 dark:border-gray-400 dark:text-white"
-            >
-              Login <FiLogIn />
-            </Link>
-            <Link
-              to="/register"
-              className="btn join-item bg-white dark:bg-gray-500 dark:border-gray-400 dark:text-white"
-            >
-              Register <FiLogIn />
-            </Link>
-          </div>
-        )} */}
+                Admin Dashboard
+              </Link>
+            </li>
+          </ul>
+        </div>
       </div>
     </nav>
   );
