@@ -1,21 +1,20 @@
 import SideBar from "@/components/layouts/dashboard/admin/components/SideBar";
-import Link from "next/link";
 
 export const metadata = {
   title: "Admin dashboard",
   description: "Admin dashboard for mind flow",
 };
 
-const links = (
-  <ul className="menu menu-sm lg:menu-md">
-    <li>
-      <Link href="products">Manage products</Link>
-    </li>
-    <li>
-      <Link href="blogs">Manage blogs</Link>
-    </li>
-  </ul>
-);
+const links = [
+  {
+    url: "admin/products",
+    title: "Manage Products",
+  },
+  {
+    url: "admin/blogs",
+    title: "Manage Blogs",
+  },
+];
 
 export default function AdminDashboardLayout({ children }) {
   return (

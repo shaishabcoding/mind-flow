@@ -1,7 +1,11 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const SideBar = ({ links }) => {
+  const pathname = usePathname();
+
   const { user } = {
     user: {
       displayName: "Shaishab Chandra Shil",
@@ -9,6 +13,25 @@ const SideBar = ({ links }) => {
       photoURL: "/logo.png",
     },
   };
+
+  const navLinks = (
+    <ul className="menu menu-sm lg:menu-md">
+      {links.map(({ url, title }, idx) => (
+        <li key={idx}>
+          <Link
+            className={
+              pathname === "/dashboard/" + url
+                ? "bg-teal-200/50 text-teal-700 dark:text-teal-400 dark:bg-teal-700/50 font-semibold hover:cursor-not-allowed"
+                : ""
+            }
+            href={url}
+          >
+            {title}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
 
   return (
     <div id="sidebar2">
@@ -26,7 +49,7 @@ const SideBar = ({ links }) => {
         <span>Hi, {user.displayName.split(" ")[0].slice(0, 10)}</span>
       </Link>
 
-      {links}
+      {navLinks}
     </div>
   );
 };
