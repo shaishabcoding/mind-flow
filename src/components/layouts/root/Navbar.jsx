@@ -85,8 +85,8 @@ const Navbar = () => {
               height="24"
               className="dark:bg-white dark:mask dark:mask-squircle"
               src="/logo.png"
-            />{" "}
-            Blood Share
+            />
+            MindFlow
           </span>
         </Link>
       </div>

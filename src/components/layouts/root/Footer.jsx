@@ -14,10 +14,10 @@ const Footer = () => {
           />
           <p>
             <span className="font-bold text-xl lg:text-4xl  text-teal-500 dark:text-teal-400">
-              Mind Flow
+              MindFlow
             </span>
             <br />
-            &copy; 2024 Mind Flow. All rights reserved.
+            &copy; 2024 MindFlow. All rights reserved.
           </p>
         </aside>
         <nav>
