@@ -27,7 +27,7 @@ export async function POST(req) {
 
     const result = await collection.insertOne({
       name,
-      images: image,
+      image,
       description,
       price,
     });

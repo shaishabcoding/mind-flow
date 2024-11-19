@@ -1,13 +1,27 @@
 "use client";
 import Link from "next/link";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BiSolidEdit } from "react-icons/bi";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import { TbListDetails } from "react-icons/tb";
+import { MdAddCircleOutline } from "react-icons/md";
 import { toast } from "sonner";
+import Image from "next/image";
 
 export default function ManageProducts() {
   const newProductModalRef = useRef();
+  const [products, setProducts] = useState([]);
+
+  const [notifyProductsCng, setNotifyProductsCng] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/products")
+      .then((res) => res.json())
+      .then(({ data, success }) => {
+        if (success) setProducts(data);
+      });
+  }, [notifyProductsCng]);
+
   const handleCreateProduct = async (e) => {
     e.preventDefault();
     newProductModalRef.current.close();
@@ -33,20 +47,16 @@ export default function ManageProducts() {
     !error
       ? toast.success(message, { id: toastId })
       : toast.error(error, { id: toastId });
+
+    !error && setNotifyProductsCng(!notifyProductsCng);
   };
 
   return (
     <div>
-      <h2>Products</h2>
-      {/* You can open the modal using document.getElementById('ID').showModal() method */}
-      <button
-        className="btn"
-        onClick={() => newProductModalRef.current.showModal()}
-      >
-        open modal
-      </button>
-      <div className="overflow-x-auto rounded-md border">
-        <table className="table table-xs md:table-md table-pin-rows table-pin-cols table-zebra bg-white">
+      <h2 className="text-3xl font-semibold mx-2 mb-6">Products</h2>
+
+      <div className="overflow-x-auto overflow-y-hidden rounded-md border">
+        <table className="table dark:text-black table-xs md:table-md table-pin-rows table-pin-cols table-zebra bg-white">
           <thead>
             <tr>
               <th></th>
@@ -54,60 +64,44 @@ export default function ManageProducts() {
               <td>Description</td>
               <td>Price</td>
               <td>Image</td>
-              <td></td>
+              <td>
+                <div
+                  className="tooltip tooltip-left md:tooltip-bottom z-1 relative"
+                  data-tip="Create Product"
+                >
+                  <button
+                    className="text-xl flex items-center text-teal-800 hover:bg-teal-300/50 hover:scale-105 bg-teal-200/30 rounded-full p-1"
+                    onClick={() => newProductModalRef.current.showModal()}
+                  >
+                    <MdAddCircleOutline />
+                  </button>
+                </div>
+              </td>
             </tr>
           </thead>
           <tbody>
-            {/* {meals?.meals?.map((meal, idx) => {
-              const { _id, title, likes, reviews, username } = meal;
-              return (
-                <tr
-                  key={_id}
-                  className="dark:bg-gray-400 dark:text-white dark:even:text-gray-700"
-                >
-                  <th className="dark:text-black dark:odd:bg-gray-400 ">
-                    {idx + 1}
-                  </th>
-                  <td>{title}</td>
-                  <td>{likes || 0}</td>
-                  <td>{reviews?.length || 0}</td>
-                  <td>{username}</td>
-                  <td className="flex gap-2 w-fit">
-                    <Link
-                      className="grid w-full"
-                      href={`/dashboard/meals/edit/${_id}`}
-                    >
-                      <button
-                        title="update"
-                        className="btn text-white btn-info btn-xs md:btn-sm dark:bg-gray-700 dark:text-white dark:border-gray-400"
-                      >
-                        <BiSolidEdit />
-                      </button>
-                    </Link>
-                    <button
-                      disabled={deleteLoading[0] && deleteLoading[1] === _id}
-                      onClick={() => handleDelete(_id)}
-                      title="delete"
-                      className="btn text-white disabled:text-primary btn-error btn-xs  md:btn-sm dark:bg-gray-700 dark:text-white dark:border-gray-400"
-                    >
-                      {deleteLoading[0] && deleteLoading[1] === _id ? (
-                        <span className="loading loading-spinner loading-sm"></span>
-                      ) : (
-                        <RiDeleteBin6Fill />
-                      )}
-                    </button>
-                    <Link className="grid w-full" to={`/meal/${_id}`}>
-                      <button
-                        title="details"
-                        className="btn text-white btn-xs btn-primary md:btn-sm dark:bg-gray-700 dark:text-white dark:border-gray-400"
-                      >
-                        <TbListDetails />
-                      </button>
-                    </Link>
-                  </td>
-                </tr>
-              );
-            })} */}
+            {products?.map(({ _id, name, description, image, price }, idx) => (
+              <tr key={_id}>
+                <th>{idx + 1}</th>
+                <td>
+                  <Image
+                    src={image}
+                    alt={name}
+                    width="30"
+                    height="30"
+                    className="object-center"
+                  />
+                </td>
+                <td>{name}</td>
+                <td>{description}</td>
+                <td>${price}</td>
+              </tr>
+            ))}
+            {products?.length < 1 && (
+              <tr className="h-12">
+                <td className="bg-white"></td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
