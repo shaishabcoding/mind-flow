@@ -1,6 +1,35 @@
-import { Link } from "react-router-dom";
+"use client";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Navbar = ({ links }) => {
+  const pathname = usePathname();
+  const { user } = {
+    user: {
+      displayName: "Shaishab Chandra Shil",
+      email: "shaishab316@gmail.com",
+      photoURL: "/logo.png",
+    },
+  };
+
+  const navLinks = (
+    <ul className="menu menu-sm lg:menu-md">
+      {links.map(({ url, title }, idx) => (
+        <li key={idx}>
+          <Link
+            className={
+              pathname === "/dashboard/" + url
+                ? "bg-teal-200/50 text-teal-700 dark:text-teal-400 dark:bg-teal-700/50 font-semibold hover:cursor-not-allowed"
+                : ""
+            }
+            href={url}
+          >
+            {title}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
   return (
     <nav
       id="sidebar"
@@ -28,11 +57,11 @@ const Navbar = ({ links }) => {
             tabIndex={0}
             className="menu mt-4 bg-gradient-to-br from-green-50  dark:from-gray-700 via-pink-50 dark:via-gray-800 to-sky-50 dark:to-gray-700 dark:text-white dark:border-gray-500 menu-sm dropdown-content p-2 shadow bg-base-100 rounded-box w-52"
           >
-            {links}
+            {navLinks}
           </ul>
         </div>
         <Link
-          to="/"
+          href="/"
           className="btn btn-ghost text-base font-bold md:px-4 px-0 md:text-xl"
         >
           <span className="flex gap-1 lg:gap-2 items-center">
@@ -43,9 +72,6 @@ const Navbar = ({ links }) => {
             <span>Hi, {user.displayName.split(" ")[0].slice(0, 10)}</span>
           </span>
         </Link>
-      </div>
-      <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
     </nav>
   );
