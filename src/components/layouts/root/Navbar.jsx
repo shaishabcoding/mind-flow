@@ -130,9 +130,9 @@ const Navbar = () => {
           >
             <li className="dark:hover:bg-gray-400/30 rounded-md">
               <Link
-                href="/admin-dashboard"
+                href="/dashboard/admin"
                 className={
-                  pathname === "/admin-dashboard"
+                  pathname === "/dashboard/admin"
                     ? "bg-teal-200/50 text-teal-700 dark:text-teal-400 dark:bg-teal-700/50 font-semibold hover:cursor-not-allowed"
                     : ""
                 }
