@@ -1,12 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
-import { HiOutlineLogout } from "react-icons/hi";
-import { FiLogIn } from "react-icons/fi";
+// import { HiOutlineLogout } from "react-icons/hi";
+// import { FiLogIn } from "react-icons/fi";
 import { CiDark, CiLight } from "react-icons/ci";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
+  const pathname = usePathname();
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
@@ -22,12 +24,39 @@ const Navbar = () => {
     document.documentElement.classList.toggle("dark", newMode);
   };
 
+  const navLinks = [
+    {
+      url: "/",
+      title: "Home",
+    },
+    {
+      url: "/products",
+      title: "Products",
+    },
+    {
+      url: "/blogs",
+      title: "Blogs",
+    },
+  ];
+
   const links = (
     <>
-      <li>
-        <Link href="/">Home</Link>
-      </li>
+      {navLinks.map(({ url, title }, idx) => (
+        <li key={idx}>
+          <Link
+            className={
+              pathname === url
+                ? "bg-teal-200/50 text-teal-700 font-semibold hover:cursor-not-allowed"
+                : ""
+            }
+            href={url}
+          >
+            {title}
+          </Link>
+        </li>
+      ))}
 
+      {/* 
       {false ? (
         <></>
       ) : (
@@ -41,7 +70,7 @@ const Navbar = () => {
             </li>
           </div>
         </>
-      )}
+      )} */}
     </>
   );
   return (
