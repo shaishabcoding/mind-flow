@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { CiDark, CiLight } from "react-icons/ci";
 import Link from "next/link";
 import Image from "next/image";
+import { IoMdCart } from "react-icons/io";
 import { usePathname } from "next/navigation";
 
 const Navbar = () => {
@@ -106,9 +107,15 @@ const Navbar = () => {
       </div>
       <div className="navbar-end flex items-center">
         <div className="dropdown dropdown-bottom dropdown-end mr-2">
+          <Link
+            href="/cart"
+            className="btn md:m-1 text-3xl btn-ghost dark:hover:bg-gray-500 p-2 rounded-full"
+          >
+            <IoMdCart />
+          </Link>
           <button
             onClick={toggleDarkMode}
-            className="btn m-1 text-3xl btn-ghost dark:hover:bg-gray-500 p-2 rounded-full"
+            className="btn md:m-1 text-3xl btn-ghost dark:hover:bg-gray-500 p-2 rounded-full"
           >
             {isDarkMode ? <CiLight /> : <CiDark />}
           </button>
