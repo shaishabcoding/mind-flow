@@ -40,8 +40,8 @@ export default function AddToCart({ id, cb = () => {} }) {
     <button
       className={`btn grow btn-xs md:btn-sm ${
         isInCart
-          ? "text-red-800 hover:bg-red-300/50 bg-red-200/30"
-          : "text-teal-800 hover:bg-teal-300/50 bg-teal-200/30"
+          ? "text-red-800 hover:bg-red-300/50 bg-red-200/30 dark:bg-red-500 dark:text-red-900"
+          : "text-teal-800 hover:bg-teal-300/50 bg-teal-200/30 dark:bg-teal-500 dark:text-teal-900"
       } hover:scale-105`}
       onClick={() => toggleCart(id, isInCart, setInCart, cb)}
     >

@@ -39,7 +39,7 @@ export default function ProductsComponent() {
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
               <Link href={"/products/" + product._id}>
-                <button className="btn grow btn-xs md:btn-sm text-teal-800 hover:bg-teal-300/50 hover:scale-105 bg-teal-200/30">
+                <button className="btn grow btn-xs md:btn-sm text-teal-800 hover:bg-teal-300/50 hover:scale-105 bg-teal-200/30 dark:bg-teal-500 dark:text-teal-900">
                   <TbListDetails className="inline" /> View Details
                 </button>
               </Link>

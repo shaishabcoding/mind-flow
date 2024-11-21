@@ -130,7 +130,7 @@ export default function ManageBlogs() {
                   data-tip="Create"
                 >
                   <button
-                    className="text-xl flex items-center text-teal-800 hover:bg-teal-300/50 hover:scale-105 bg-teal-200/30 rounded-full p-1"
+                    className="text-xl flex items-center text-teal-800 hover:bg-teal-300/50 hover:scale-105 bg-teal-200/30 dark:bg-teal-500 dark:text-teal-900 rounded-full p-1"
                     onClick={() => {
                       setBlog({});
                       productModalRef.current.showModal();
@@ -167,7 +167,7 @@ export default function ManageBlogs() {
                     data-tip="Update"
                   >
                     <button
-                      className="text-xl flex items-center text-teal-800 hover:bg-teal-300/50 hover:scale-105 bg-teal-200/30 rounded-full p-1"
+                      className="text-xl flex items-center text-teal-800 hover:bg-teal-300/50 hover:scale-105 bg-teal-200/30 dark:bg-teal-500 dark:text-teal-900 rounded-full p-1"
                       onClick={() => {
                         setBlog({
                           name,
