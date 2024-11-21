@@ -6,9 +6,9 @@ import { toast } from "sonner";
 import Image from "next/image";
 
 export default function ManageProducts() {
-  const newProductModalRef = useRef();
+  const productModalRef = useRef();
   const [products, setProducts] = useState([]);
-
+  const [product, setProduct] = useState({});
   const [notifyProductsCng, setNotifyProductsCng] = useState(false);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export default function ManageProducts() {
 
   const handleCreateProduct = async (e) => {
     e.preventDefault();
-    newProductModalRef.current.close();
+    productModalRef.current.close();
 
     const toastId = toast.loading("Creating new products...");
 
@@ -32,12 +32,67 @@ export default function ManageProducts() {
       description: e.target.description.value,
     };
 
+    console.log(newProduct);
+
     const res = await fetch("/api/products/create", {
       method: "POST",
       body: JSON.stringify(newProduct),
       headers: {
         "Content-Type": "application/json",
       },
+    });
+
+    const { message, error } = await res.json();
+    !error
+      ? toast.success(message, { id: toastId })
+      : toast.error(error, { id: toastId });
+
+    !error && setNotifyProductsCng(!notifyProductsCng);
+
+    e.target.reset();
+  };
+
+  const handleUpdateProduct = async (e, productId) => {
+    e.preventDefault();
+    productModalRef.current.close();
+
+    const toastId = toast.loading("Updating product...");
+
+    const updatedProduct = {
+      name: e.target.name.value,
+      image: e.target.image.value,
+      price: +e.target.price.value,
+      description: e.target.description.value,
+    };
+
+    const res = await fetch(`/api/products/${productId}/edit`, {
+      method: "PUT",
+      body: JSON.stringify(updatedProduct),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const { message, error } = await res.json();
+    !error
+      ? toast.success(message, { id: toastId })
+      : toast.error(error, { id: toastId });
+
+    !error && setNotifyProductsCng(!notifyProductsCng);
+
+    e.target.reset();
+  };
+
+  const handleDeleteProduct = async (productId) => {
+    const confirmDelete = confirm(
+      "Are you sure you want to delete this product?"
+    );
+    if (!confirmDelete) return;
+
+    const toastId = toast.loading("Deleting product...");
+
+    const res = await fetch(`/api/products/${productId}/delete`, {
+      method: "DELETE",
     });
 
     const { message, error } = await res.json();
@@ -68,7 +123,10 @@ export default function ManageProducts() {
                 >
                   <button
                     className="text-xl flex items-center text-teal-800 hover:bg-teal-300/50 hover:scale-105 bg-teal-200/30 rounded-full p-1"
-                    onClick={() => newProductModalRef.current.showModal()}
+                    onClick={() => {
+                      setProduct({});
+                      productModalRef.current.showModal();
+                    }}
                   >
                     <MdAddCircleOutline />
                   </button>
@@ -102,7 +160,16 @@ export default function ManageProducts() {
                   >
                     <button
                       className="text-xl flex items-center text-teal-800 hover:bg-teal-300/50 hover:scale-105 bg-teal-200/30 rounded-full p-1"
-                      onClick={() => newProductModalRef.current.showModal()}
+                      onClick={() => {
+                        setProduct({
+                          name,
+                          description,
+                          image,
+                          price,
+                          _id,
+                        });
+                        productModalRef.current.showModal();
+                      }}
                     >
                       <FiEdit />
                     </button>
@@ -113,7 +180,7 @@ export default function ManageProducts() {
                   >
                     <button
                       className="text-xl flex items-center text-red-800 hover:bg-red-300/50 hover:scale-105 bg-red-200/30 rounded-full p-1"
-                      onClick={() => newProductModalRef.current.showModal()}
+                      onClick={() => productModalRef.current.showModal()}
                     >
                       <MdDelete />
                     </button>
@@ -128,22 +195,29 @@ export default function ManageProducts() {
           </tbody>
         </table>
       </div>
-      <dialog ref={newProductModalRef} className="modal">
+      <dialog ref={productModalRef} className="modal">
         <div className="modal-box">
           <form method="dialog">
-            {/* if there is a button in form, it will close the modal */}
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
               ✕
             </button>
           </form>
-          <h3 className="font-bold text-lg">Create new Product!</h3>
+          <h3 className="font-bold text-lg">
+            {product?._id ? "Update " : "Create new "}
+            Product!
+          </h3>
           <form
-            onSubmit={handleCreateProduct}
+            onSubmit={(e) => {
+              product?._id
+                ? handleUpdateProduct(e, product._id)
+                : handleCreateProduct(e);
+            }}
             className="flex flex-col gap-2 mt-2"
           >
             <label className="input input-bordered flex items-center gap-2">
               Name
               <input
+                defaultValue={product?.name ?? ""}
                 required
                 name="name"
                 type="text"
@@ -154,6 +228,7 @@ export default function ManageProducts() {
             <label className="input input-bordered flex items-center gap-2">
               Image
               <input
+                defaultValue={product?.image ?? ""}
                 required
                 name="image"
                 type="url"
@@ -164,6 +239,7 @@ export default function ManageProducts() {
             <label className="input input-bordered flex items-center gap-2">
               Price
               <input
+                defaultValue={product?.price ?? ""}
                 required
                 name="price"
                 type="number"
@@ -174,6 +250,7 @@ export default function ManageProducts() {
             <label className="textarea textarea-bordered flex items-start flex-col gap-2">
               Description
               <textarea
+                defaultValue={product?.description ?? ""}
                 required
                 name="description"
                 type="text"
@@ -183,7 +260,7 @@ export default function ManageProducts() {
             </label>
 
             <button className="btn btn-primary" type="submit">
-              Create
+              {product?._id ? "Update" : "Create"}
             </button>
           </form>
         </div>
