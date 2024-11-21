@@ -4,6 +4,7 @@ import { FiEdit } from "react-icons/fi";
 import { MdAddCircleOutline, MdDelete } from "react-icons/md";
 import { toast } from "sonner";
 import Image from "next/image";
+import Swal from "sweetalert2";
 
 export default function ManageProducts() {
   const productModalRef = useRef();
@@ -84,23 +85,30 @@ export default function ManageProducts() {
   };
 
   const handleDeleteProduct = async (productId) => {
-    const confirmDelete = confirm(
-      "Are you sure you want to delete this product?"
-    );
-    if (!confirmDelete) return;
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const toastId = toast.loading("Deleting product...");
 
-    const toastId = toast.loading("Deleting product...");
+        const res = await fetch(`/api/products/${productId}/delete`, {
+          method: "DELETE",
+        });
 
-    const res = await fetch(`/api/products/${productId}/delete`, {
-      method: "DELETE",
+        const { message, error } = await res.json();
+        !error
+          ? toast.success(message, { id: toastId })
+          : toast.error(error, { id: toastId });
+
+        !error && setNotifyProductsCng(!notifyProductsCng);
+      }
     });
-
-    const { message, error } = await res.json();
-    !error
-      ? toast.success(message, { id: toastId })
-      : toast.error(error, { id: toastId });
-
-    !error && setNotifyProductsCng(!notifyProductsCng);
   };
 
   return (
@@ -180,7 +188,7 @@ export default function ManageProducts() {
                   >
                     <button
                       className="text-xl flex items-center text-red-800 hover:bg-red-300/50 hover:scale-105 bg-red-200/30 rounded-full p-1"
-                      onClick={() => productModalRef.current.showModal()}
+                      onClick={() => handleDeleteProduct(_id)}
                     >
                       <MdDelete />
                     </button>
