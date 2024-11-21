@@ -6,7 +6,7 @@ const Footer = () => {
       <footer className="footer md:p-10 p-4 lg:px-28 lg:mt-6">
         <aside>
           <Image
-            className="dark:invert grayscale"
+            className="dark:invert brightness-0"
             width="96"
             height="96"
             alt="logo"

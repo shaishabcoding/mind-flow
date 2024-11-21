@@ -1,5 +1,5 @@
-import Navbar from "@/components/layouts/dashboard/admin/components/Navbar";
-import SideBar from "@/components/layouts/dashboard/admin/components/SideBar";
+import Navbar from "@/components/layouts/dashboard/admin/Navbar";
+import SideBar from "@/components/layouts/dashboard/admin/SideBar";
 
 export const metadata = {
   title: "Admin dashboard",
