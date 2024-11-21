@@ -1,10 +1,7 @@
 "use client";
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { BiSolidEdit } from "react-icons/bi";
-import { RiDeleteBin6Fill } from "react-icons/ri";
-import { TbListDetails } from "react-icons/tb";
-import { MdAddCircleOutline } from "react-icons/md";
+import { FiEdit } from "react-icons/fi";
+import { MdAddCircleOutline, MdDelete } from "react-icons/md";
 import { toast } from "sonner";
 import Image from "next/image";
 
@@ -55,19 +52,19 @@ export default function ManageProducts() {
     <div>
       <h2 className="text-3xl font-semibold mx-2 mb-6">Products</h2>
 
-      <div className="overflow-x-auto overflow-y-hidden rounded-md border">
-        <table className="table dark:text-black table-xs md:table-md table-pin-rows table-pin-cols table-zebra bg-white">
+      <div className="overflow-x-auto overflow-y-visible min-h-20">
+        <table className="table border rounded-md dark:text-black table-xs md:table-md table-pin-rows table-pin-cols table-zebra bg-white">
           <thead>
             <tr>
               <th></th>
+              <td>Image</td>
               <td>Name</td>
               <td>Description</td>
               <td>Price</td>
-              <td>Image</td>
               <td>
                 <div
-                  className="tooltip tooltip-left md:tooltip-bottom z-1 relative"
-                  data-tip="Create Product"
+                  className="tooltip font-medium tooltip-left md:tooltip-bottom z-1 relative"
+                  data-tip="Create"
                 >
                   <button
                     className="text-xl flex items-center text-teal-800 hover:bg-teal-300/50 hover:scale-105 bg-teal-200/30 rounded-full p-1"
@@ -93,15 +90,41 @@ export default function ManageProducts() {
                   />
                 </td>
                 <td>{name}</td>
-                <td>{description}</td>
+                <td>
+                  {description?.slice(0, 20)}
+                  {description?.length > 20 && "..."}
+                </td>
                 <td>${price}</td>
+                <td className="space-x-2">
+                  <div
+                    className="tooltip tooltip-left md:tooltip-bottom z-1 relative"
+                    data-tip="Update"
+                  >
+                    <button
+                      className="text-xl flex items-center text-teal-800 hover:bg-teal-300/50 hover:scale-105 bg-teal-200/30 rounded-full p-1"
+                      onClick={() => newProductModalRef.current.showModal()}
+                    >
+                      <FiEdit />
+                    </button>
+                  </div>
+                  <div
+                    className="tooltip tooltip-left md:tooltip-bottom z-1 relative"
+                    data-tip="Delete"
+                  >
+                    <button
+                      className="text-xl flex items-center text-red-800 hover:bg-red-300/50 hover:scale-105 bg-red-200/30 rounded-full p-1"
+                      onClick={() => newProductModalRef.current.showModal()}
+                    >
+                      <MdDelete />
+                    </button>
+                  </div>
+                </td>
               </tr>
             ))}
-            {products?.length < 1 && (
-              <tr className="h-12">
-                <td className="bg-white"></td>
-              </tr>
-            )}
+
+            <tr className="h-8">
+              <td className="bg-white"></td>
+            </tr>
           </tbody>
         </table>
       </div>
