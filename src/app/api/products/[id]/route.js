@@ -3,7 +3,7 @@ import { getDatabase } from "@/lib/db";
 import { ObjectId } from "mongodb";
 
 export async function GET(_req, { params }) {
-  const { id } = params;
+  const { id } = await params;
 
   try {
     const db = await getDatabase();

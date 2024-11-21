@@ -4,7 +4,7 @@ import { getDatabase } from "@/lib/db";
 
 export async function PUT(req, { params }) {
   try {
-    const { id } = params;
+    const { id } = await params;
     if (!ObjectId.isValid(id)) {
       return NextResponse.json(
         { error: "Invalid product ID" },

@@ -1,19 +1,51 @@
 "use client";
-/* eslint-disable @next/next/no-img-element */
-import { TbListDetails } from "react-icons/tb";
-import Link from "next/link";
 import AddToCart from "@/components/root/products/addToCart";
+/* eslint-disable @next/next/no-img-element */
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { TbListDetails } from "react-icons/tb";
+import { toast } from "sonner";
+
+const fetchProductDetails = async (productIds) => {
+  try {
+    const promises = productIds.map((id) =>
+      fetch(`/api/products/${id}`).then((res) => res.json())
+    );
+    const products = await Promise.all(promises);
+    return products.map((response) => response.data);
+  } catch (error) {
+    console.error("Error fetching product details:", error);
+    toast.error("Failed to load cart items.");
+    return [];
+  }
+};
 
 export default function Cart() {
-  // const products = getProducts();
+  const [cartProducts, setCartProducts] = useState([]);
+  const [notifyCartCng, setNotifyCartCng] = useState(false);
+
+  const notifyCng = () => {
+    setNotifyCartCng(!notifyCartCng);
+  };
+
+  useEffect(() => {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    if (cart.length > 0) {
+      fetchProductDetails(cart).then(setCartProducts);
+    } else {
+      setCartProducts([]);
+    }
+  }, [notifyCartCng]);
 
   return (
     <div className="px-4 lg:px-0">
       <h2 className="text-4xl text-center my-10 font-semibold mx-2 mb-6">
         Cart Products
       </h2>
-      {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {products?.map((product) => (
+      {cartProducts.length < 1 && "No cart products found!"}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {cartProducts?.map((product) => (
           <div
             key={product._id}
             className="border drop-shadow-sm rounded-md p-4 bg-white dark:bg-gray-700"
@@ -36,11 +68,11 @@ export default function Cart() {
                   <TbListDetails className="inline" /> View Details
                 </button>
               </Link>
-              <AddToCart id={product._id} />
+              <AddToCart id={product._id} cb={notifyCng} />
             </div>
           </div>
         ))}
-      </div> */}
+      </div>
     </div>
   );
 }
