@@ -6,36 +6,38 @@ import { toast } from "sonner";
 import Image from "next/image";
 import Swal from "sweetalert2";
 
-export default function ManageProducts() {
+export default function ManageBlogs() {
   const productModalRef = useRef();
-  const [products, setProducts] = useState([]);
-  const [product, setProduct] = useState({});
-  const [notifyProductsCng, setNotifyProductsCng] = useState(false);
+  const [blogs, setBlogs] = useState([]);
+  const [blog, setBlog] = useState({});
+  const [notifyBlogsCng, setNotifyBlogsCng] = useState(false);
 
   useEffect(() => {
-    fetch("/api/products")
+    fetch("/api/blogs")
       .then((res) => res.json())
       .then(({ data, success }) => {
-        if (success) setProducts(data);
+        if (success) setBlogs(data);
       });
-  }, [notifyProductsCng]);
+  }, [notifyBlogsCng]);
 
-  const handleCreateProduct = async (e) => {
+  const handleCreateBlog = async (e) => {
     e.preventDefault();
     productModalRef.current.close();
 
-    const toastId = toast.loading("Creating new products...");
+    const toastId = toast.loading("Creating new blog...");
 
-    const newProduct = {
+    const newBlog = {
       name: e.target.name.value,
       image: e.target.image.value,
-      price: +e.target.price.value,
+      date: e.target.date.value,
       description: e.target.description.value,
     };
 
-    const res = await fetch("/api/products/create", {
+    console.log(newBlog);
+
+    const res = await fetch("/api/blogs/create", {
       method: "POST",
-      body: JSON.stringify(newProduct),
+      body: JSON.stringify(newBlog),
       headers: {
         "Content-Type": "application/json",
       },
@@ -46,7 +48,7 @@ export default function ManageProducts() {
       ? toast.success(message, { id: toastId })
       : toast.error(error, { id: toastId });
 
-    !error && setNotifyProductsCng(!notifyProductsCng);
+    !error && setNotifyBlogsCng(!notifyBlogsCng);
 
     e.target.reset();
   };
@@ -60,11 +62,11 @@ export default function ManageProducts() {
     const updatedProduct = {
       name: e.target.name.value,
       image: e.target.image.value,
-      price: +e.target.price.value,
+      date: e.target.date.value,
       description: e.target.description.value,
     };
 
-    const res = await fetch(`/api/products/${productId}/edit`, {
+    const res = await fetch(`/api/blogs/${productId}/edit`, {
       method: "PUT",
       body: JSON.stringify(updatedProduct),
       headers: {
@@ -77,7 +79,7 @@ export default function ManageProducts() {
       ? toast.success(message, { id: toastId })
       : toast.error(error, { id: toastId });
 
-    !error && setNotifyProductsCng(!notifyProductsCng);
+    !error && setNotifyBlogsCng(!notifyBlogsCng);
 
     e.target.reset();
   };
@@ -95,7 +97,7 @@ export default function ManageProducts() {
       if (result.isConfirmed) {
         const toastId = toast.loading("Deleting product...");
 
-        const res = await fetch(`/api/products/${productId}/delete`, {
+        const res = await fetch(`/api/blogs/${productId}/delete`, {
           method: "DELETE",
         });
 
@@ -104,14 +106,14 @@ export default function ManageProducts() {
           ? toast.success(message, { id: toastId })
           : toast.error(error, { id: toastId });
 
-        !error && setNotifyProductsCng(!notifyProductsCng);
+        !error && setNotifyBlogsCng(!notifyBlogsCng);
       }
     });
   };
 
   return (
     <div>
-      <h2 className="text-3xl font-semibold mx-2 mb-6">Products</h2>
+      <h2 className="text-3xl font-semibold mx-2 mb-6">Blogs</h2>
 
       <div className="overflow-x-auto overflow-y-visible min-h-20">
         <table className="table border rounded-md dark:text-black table-xs md:table-md table-pin-rows table-pin-cols table-zebra bg-white">
@@ -121,7 +123,7 @@ export default function ManageProducts() {
               <td>Image</td>
               <td>Name</td>
               <td>Description</td>
-              <td>Price</td>
+              <td>Date</td>
               <td>
                 <div
                   className="tooltip font-medium tooltip-left md:tooltip-bottom z-1 relative"
@@ -130,7 +132,7 @@ export default function ManageProducts() {
                   <button
                     className="text-xl flex items-center text-teal-800 hover:bg-teal-300/50 hover:scale-105 bg-teal-200/30 rounded-full p-1"
                     onClick={() => {
-                      setProduct({});
+                      setBlog({});
                       productModalRef.current.showModal();
                     }}
                   >
@@ -141,7 +143,7 @@ export default function ManageProducts() {
             </tr>
           </thead>
           <tbody>
-            {products?.map(({ _id, name, description, image, price }, idx) => (
+            {blogs?.map(({ _id, name, description, image, date }, idx) => (
               <tr key={_id}>
                 <th>{idx + 1}</th>
                 <td>
@@ -158,7 +160,7 @@ export default function ManageProducts() {
                   {description?.slice(0, 20)}
                   {description?.length > 20 && "..."}
                 </td>
-                <td>${price}</td>
+                <td>{date}</td>
                 <td className="space-x-2">
                   <div
                     className="tooltip tooltip-left md:tooltip-bottom z-1 relative"
@@ -167,11 +169,11 @@ export default function ManageProducts() {
                     <button
                       className="text-xl flex items-center text-teal-800 hover:bg-teal-300/50 hover:scale-105 bg-teal-200/30 rounded-full p-1"
                       onClick={() => {
-                        setProduct({
+                        setBlog({
                           name,
                           description,
                           image,
-                          price,
+                          date,
                           _id,
                         });
                         productModalRef.current.showModal();
@@ -209,21 +211,21 @@ export default function ManageProducts() {
             </button>
           </form>
           <h3 className="font-bold text-lg">
-            {product?._id ? "Update " : "Create new "}
-            Product!
+            {blog?._id ? "Update " : "Create new "}
+            Blog!
           </h3>
           <form
             onSubmit={(e) => {
-              product?._id
-                ? handleUpdateProduct(e, product._id)
-                : handleCreateProduct(e);
+              blog?._id
+                ? handleUpdateProduct(e, blog._id)
+                : handleCreateBlog(e);
             }}
             className="flex flex-col gap-2 mt-2"
           >
             <label className="input input-bordered flex items-center gap-2">
               Name
               <input
-                defaultValue={product?.name ?? ""}
+                defaultValue={blog?.name ?? ""}
                 required
                 name="name"
                 type="text"
@@ -234,7 +236,7 @@ export default function ManageProducts() {
             <label className="input input-bordered flex items-center gap-2">
               Image
               <input
-                defaultValue={product?.image ?? ""}
+                defaultValue={blog?.image ?? ""}
                 required
                 name="image"
                 type="url"
@@ -243,20 +245,20 @@ export default function ManageProducts() {
               />
             </label>
             <label className="input input-bordered flex items-center gap-2">
-              Price
+              Date
               <input
-                defaultValue={product?.price ?? ""}
+                defaultValue={blog?.date ?? ""}
                 required
-                name="price"
-                type="number"
+                name="date"
+                type="date"
                 className="grow"
-                placeholder="Enter product price"
+                placeholder="Enter product date"
               />
             </label>
             <label className="textarea textarea-bordered flex items-start flex-col gap-2">
               Description
               <textarea
-                defaultValue={product?.description ?? ""}
+                defaultValue={blog?.description ?? ""}
                 required
                 name="description"
                 type="text"
@@ -266,7 +268,7 @@ export default function ManageProducts() {
             </label>
 
             <button className="btn btn-primary" type="submit">
-              {product?._id ? "Update" : "Create"}
+              {blog?._id ? "Update" : "Create"}
             </button>
           </form>
         </div>

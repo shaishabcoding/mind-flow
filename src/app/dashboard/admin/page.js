@@ -1,7 +1,6 @@
+import { redirect } from "next/navigation";
+
 export default function AdminDashboard() {
-  return (
-    <div>
-      <h2>Admin Dashboard</h2>
-    </div>
-  );
+  // ToDo: if here is a page then remove redirect
+  redirect("/dashboard/admin/products");
 }

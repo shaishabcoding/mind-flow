@@ -8,11 +8,11 @@ export const metadata = {
 
 const links = [
   {
-    url: "admin/products",
+    url: "/dashboard/admin/products",
     title: "Manage Products",
   },
   {
-    url: "admin/blogs",
+    url: "/dashboard/admin/blogs",
     title: "Manage Blogs",
   },
 ];
