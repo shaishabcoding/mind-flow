@@ -1,10 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 import { TbListDetails } from "react-icons/tb";
-import { IoMdCart } from "react-icons/io";
+import Link from "next/link";
+import AddToCart from "@/components/root/products/addToCart";
 
 const getProducts = async () => {
   const res = await fetch(process.env.BASE_URL + "/api/products");
   const { data } = await res.json();
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch products");
+  }
 
   return data;
 };
@@ -36,12 +41,12 @@ export default async function Products() {
               {product.description?.length > 80 && "..."}
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
-              <button className="btn grow btn-sm text-teal-800 hover:bg-teal-300/50 hover:scale-105 bg-teal-200/30">
-                <TbListDetails className="inline" /> View Details
-              </button>
-              <button className="btn grow btn-sm text-teal-800 hover:bg-teal-300/50 hover:scale-105 bg-teal-200/30">
-                <IoMdCart className="inline" /> Add to Cart
-              </button>
+              <Link href={"/products/" + product._id}>
+                <button className="btn grow btn-xs md:btn-sm text-teal-800 hover:bg-teal-300/50 hover:scale-105 bg-teal-200/30">
+                  <TbListDetails className="inline" /> View Details
+                </button>
+              </Link>
+              <AddToCart id={product._id} />
             </div>
           </div>
         ))}
