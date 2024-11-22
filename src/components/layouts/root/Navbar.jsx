@@ -36,6 +36,14 @@ const Navbar = () => {
       url: "/blogs",
       title: "Blogs",
     },
+    {
+      url: "/register",
+      title: "Register",
+    },
+    {
+      url: "/login",
+      title: "Login",
+    },
   ];
 
   const links = (

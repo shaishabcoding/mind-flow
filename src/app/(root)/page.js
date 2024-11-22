@@ -10,8 +10,11 @@ export default function Home() {
       <Banner />
       <div className="mx-2 lg:mx-0 mb-6">
         <div className="mt-6">
-          <Link href="/products" className="group">
-            <h2 className="text-3xl group-hover:scale-y-110 my-10 font-semibold mb-6">
+          <Link
+            href="/products"
+            className="group hover:text-teal-500 hover:drop-shadow-sm"
+          >
+            <h2 className="text-3xl my-10 font-semibold mb-6">
               Recent Products{" "}
               <FaArrowRight className="inline group-hover:ml-2" />
             </h2>
@@ -19,8 +22,11 @@ export default function Home() {
           <ProductsComponent max={3} />
         </div>
         <div className="mt-6">
-          <Link href="/blogs" className="group hover:text-teal-500">
-            <h2 className="text-3xl group-hover:scale-1 my-10 font-semibold mb-6">
+          <Link
+            href="/blogs"
+            className="group hover:text-teal-500 hover:drop-shadow-sm"
+          >
+            <h2 className="text-3xl my-10 font-semibold mb-6">
               Recent Blogs <FaArrowRight className="inline group-hover:ml-2" />
             </h2>
           </Link>
