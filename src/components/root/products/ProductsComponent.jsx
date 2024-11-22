@@ -5,16 +5,18 @@ import { TbListDetails } from "react-icons/tb";
 import AddToCart from "./addToCart";
 import { useEffect, useState } from "react";
 
-export default function ProductsComponent() {
+export default function ProductsComponent({ max = null }) {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
     fetch("/api/products")
       .then((res) => res.json())
       .then(({ data, success }) => {
-        if (success) setProducts(data);
+        if (success) {
+          max ? setProducts(data.slice(0, max)) : setProducts(data);
+        }
       });
-  }, []);
+  }, [max]);
 
   return (
     <>

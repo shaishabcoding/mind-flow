@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
 import AddToCart from "@/components/root/products/addToCart";
+import ProductsComponent from "@/components/root/products/ProductsComponent";
 
 const getProductById = async (id) => {
   try {
@@ -86,6 +87,12 @@ export default async function Product({ params }) {
           </div>
           <p className="text-sm">{product.description}</p>
         </div>
+      </div>
+      <div className="mt-6">
+        <h2 className="text-2xl my-10 font-semibold mx-2 mb-6">
+          Related Products
+        </h2>
+        <ProductsComponent max={3} />
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import { MdAddCircleOutline, MdDelete } from "react-icons/md";
 import { toast } from "sonner";
 import Image from "next/image";
 import Swal from "sweetalert2";
+import formateDate from "@/utils/formateDate";
 
 export default function ManageBlogs() {
   const productModalRef = useRef();
@@ -160,38 +161,40 @@ export default function ManageBlogs() {
                   {description?.slice(0, 20)}
                   {description?.length > 20 && "..."}
                 </td>
-                <td>{date}</td>
-                <td className="space-x-2">
-                  <div
-                    className="tooltip tooltip-left md:tooltip-bottom z-1 relative"
-                    data-tip="Update"
-                  >
-                    <button
-                      className="text-xl flex items-center text-teal-800 hover:bg-teal-300/50 hover:scale-105 bg-teal-200/30 dark:bg-teal-500 dark:text-teal-900 rounded-full p-1"
-                      onClick={() => {
-                        setBlog({
-                          name,
-                          description,
-                          image,
-                          date,
-                          _id,
-                        });
-                        productModalRef.current.showModal();
-                      }}
+                <td>{formateDate(date)}</td>
+                <td>
+                  <div className="flex flex-row gap-2">
+                    <div
+                      className="tooltip tooltip-left md:tooltip-bottom z-1 relative"
+                      data-tip="Update"
                     >
-                      <FiEdit />
-                    </button>
-                  </div>
-                  <div
-                    className="tooltip tooltip-left md:tooltip-bottom z-1 relative"
-                    data-tip="Delete"
-                  >
-                    <button
-                      className="text-xl flex items-center text-red-800 hover:bg-red-300/50 hover:scale-105 bg-red-200/30 rounded-full p-1"
-                      onClick={() => handleDeleteProduct(_id)}
+                      <button
+                        className="text-sm md:text-xl flex items-center text-teal-800 hover:bg-teal-300/50 hover:scale-105 bg-teal-200/30 dark:bg-teal-500 dark:text-teal-900 rounded-full p-1"
+                        onClick={() => {
+                          setBlog({
+                            name,
+                            description,
+                            image,
+                            date,
+                            _id,
+                          });
+                          productModalRef.current.showModal();
+                        }}
+                      >
+                        <FiEdit />
+                      </button>
+                    </div>
+                    <div
+                      className="tooltip tooltip-left md:tooltip-bottom z-1 relative"
+                      data-tip="Delete"
                     >
-                      <MdDelete />
-                    </button>
+                      <button
+                        className="text-sm md:text-xl flex items-center text-red-800 hover:bg-red-300/50 hover:scale-105 bg-red-200/30 rounded-full p-1"
+                        onClick={() => handleDeleteProduct(_id)}
+                      >
+                        <MdDelete />
+                      </button>
+                    </div>
                   </div>
                 </td>
               </tr>

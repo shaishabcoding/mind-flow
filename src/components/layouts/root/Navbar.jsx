@@ -59,7 +59,7 @@ const Navbar = () => {
   return (
     <nav
       id="navbar"
-      className="navbar backdrop-blur-md sticky top-0 lg:static z-50 bg-gradient-to-r from-green-50/80  dark:from-gray-600/80 via-pink-50/80 dark:via-gray-700/80 to-sky-50/50 dark:to-gray-600/80 dark:text-white lg:rounded-lg"
+      className="navbar backdrop-blur-md sticky lg:relative  top-0 z-50 bg-gradient-to-r from-green-50/80  dark:from-gray-600/80 via-pink-50/80 dark:via-gray-700/80 to-sky-50/50 dark:to-gray-600/80 dark:text-white lg:rounded-lg"
     >
       <div className="navbar-start">
         <div className="dropdown">
@@ -122,9 +122,9 @@ const Navbar = () => {
         </div>
         <div className="dropdown dropdown-end">
           <Image
-            alt="log4"
-            width="20"
-            height="24"
+            alt="logo"
+            width="50"
+            height="50"
             tabIndex={0}
             role="button"
             title="Profile"
@@ -133,7 +133,7 @@ const Navbar = () => {
           />
           <ul
             tabIndex={0}
-            className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 mt-4 bg-gradient-to-br from-green-50  dark:from-gray-700 via-pink-50 dark:via-gray-800 to-sky-50 dark:to-gray-700 dark:text-white dark:border-gray-500"
+            className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 mt-4 bg-gradient-to-br from-green-50 dark:from-gray-700 via-pink-50 dark:via-gray-800 to-sky-50 dark:to-gray-700 dark:text-white dark:border-gray-500"
           >
             <li className="dark:hover:bg-gray-400/30 rounded-md">
               <Link
