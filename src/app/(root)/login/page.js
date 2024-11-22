@@ -9,30 +9,28 @@ const Login = () => {
     email: "",
     password: "",
   });
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const handleInputChange = ({ target: { name, value } }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const toastId = toast.loading("Login ...");
+
+    const toastId = toast.loading("Logging in...");
 
     try {
       const response = await loginWithEmailAndPass(formData);
 
-      console.log(response);
+      if (response.error) {
+        throw new Error(response.error.message || "Login failed.");
+      }
 
-      toast.success("Login successfully!", {
-        id: toastId,
-      });
+      toast.success("Logged in successfully!", { id: toastId });
+      e.target.reset();
     } catch (err) {
       toast.error("Something went wrong. Please try again.", {
         id: toastId,
       });
-    } finally {
-      e.target.reset();
     }
   };
 
