@@ -21,17 +21,13 @@ const Login = () => {
     try {
       const response = await loginWithEmailAndPass(formData);
 
-      console.log({ formData, response });
-
       if (response.error) {
         throw new Error(response.error.message || "Login failed.");
       }
 
       toast.success("Logged in successfully!", { id: toastId });
       e.target.reset();
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+      window.location.reload();
     } catch (err) {
       toast.error("Something went wrong. Please try again.", {
         id: toastId,
