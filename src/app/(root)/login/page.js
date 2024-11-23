@@ -21,6 +21,8 @@ const Login = () => {
     try {
       const response = await loginWithEmailAndPass(formData);
 
+      console.log({ formData, response });
+
       if (response.error) {
         throw new Error(response.error.message || "Login failed.");
       }
