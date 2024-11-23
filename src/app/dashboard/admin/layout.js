@@ -15,6 +15,10 @@ const links = [
     url: "/dashboard/admin/blogs",
     title: "Manage Blogs",
   },
+  {
+    url: "/dashboard/admin/media",
+    title: "Manage Media",
+  },
 ];
 
 export default function AdminDashboardLayout({ children }) {

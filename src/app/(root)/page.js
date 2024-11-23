@@ -6,7 +6,26 @@ import { FaArrowRight } from "react-icons/fa";
 import MediaIntegration from "@/components/root/home/MediaIntegration";
 import Faq from "@/components/root/home/Faq";
 
-export default function Home() {
+const getMedia = async () => {
+  try {
+    const res = await fetch(`${process.env.BASE_URL}/api/media`, {
+      cache: "no-store",
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch media");
+    }
+
+    const { data } = await res.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching media:", error);
+    return null;
+  }
+};
+
+export default async function Home() {
+  const media = await getMedia();
   return (
     <div>
       <Banner />
@@ -35,17 +54,18 @@ export default function Home() {
           <BlogsComponent max={3} />
         </div>
       </div>
-      <div className="mt-4">
+      <div className="mx-2 lg:mx-0 mb-6">
+        <h2 className="text-3xl my-10 font-semibold mb-6">Features Media</h2>
+
         <div className="flex flex-wrap gap-4 justify-center">
-          <div className="overflow-hidden">
-            <MediaIntegration />
-          </div>
-          <div className="overflow-hidden">
-            <MediaIntegration />
-          </div>
+          {media?.map(({ link, _id }) => (
+            <div className="overflow-hidden" key={_id}>
+              <MediaIntegration src={link} />
+            </div>
+          ))}
         </div>
-        <Faq />
       </div>
+      <Faq />
     </div>
   );
 }
