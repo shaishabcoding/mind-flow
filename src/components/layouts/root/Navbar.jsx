@@ -163,18 +163,23 @@ const Navbar = ({ user = null }) => {
               tabIndex={0}
               className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 mt-4 bg-gradient-to-br from-green-50 dark:from-gray-700 via-pink-50 dark:via-gray-800 to-sky-50 dark:to-gray-700 dark:text-white dark:border-gray-500"
             >
-              <li className="dark:hover:bg-gray-400/30 rounded-md">
-                <Link
-                  href="/dashboard/admin"
-                  className={
-                    pathname === "/dashboard/admin"
-                      ? "bg-teal-200/50 text-teal-700 dark:text-teal-400 dark:bg-teal-700/50 font-semibold hover:cursor-not-allowed"
-                      : ""
-                  }
-                >
-                  Admin Dashboard
-                </Link>
+              <li className="dark:hover:bg-gray-400/30 rounded-md mb-3 mt-1 font-semibold">
+                {user?.name}
               </li>
+              {user?.role === "admin" && (
+                <li className="dark:hover:bg-gray-400/30 rounded-md">
+                  <Link
+                    href="/dashboard/admin"
+                    className={
+                      pathname === "/dashboard/admin"
+                        ? "bg-teal-200/50 text-teal-700 dark:text-teal-400 dark:bg-teal-700/50 font-semibold hover:cursor-not-allowed"
+                        : ""
+                    }
+                  >
+                    Admin Dashboard
+                  </Link>
+                </li>
+              )}
               <li className="dark:hover:bg-gray-400/30 rounded-md">
                 <button className="btn btn-sm" onClick={logout}>
                   Logout
