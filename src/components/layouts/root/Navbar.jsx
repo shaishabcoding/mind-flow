@@ -5,8 +5,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { IoMdCart } from "react-icons/io";
 import { usePathname } from "next/navigation";
+import { logout } from "@/actions/logout";
 
-const Navbar = () => {
+const Navbar = ({ user = null }) => {
   const pathname = usePathname();
   const [isDarkMode, setIsDarkMode] = useState(false);
 
@@ -36,6 +37,9 @@ const Navbar = () => {
       url: "/blogs",
       title: "Blogs",
     },
+  ];
+
+  const loginLinks = [
     {
       url: "/register",
       title: "Register",
@@ -62,6 +66,21 @@ const Navbar = () => {
           </Link>
         </li>
       ))}
+      {!user?.email &&
+        loginLinks.map(({ url, title }, idx) => (
+          <li key={idx}>
+            <Link
+              className={
+                pathname === url
+                  ? "bg-teal-200/50 text-teal-700 dark:text-teal-400 dark:bg-teal-700/50 font-semibold hover:cursor-not-allowed"
+                  : ""
+              }
+              href={url}
+            >
+              {title}
+            </Link>
+          </li>
+        ))}
     </>
   );
   return (
@@ -128,35 +147,42 @@ const Navbar = () => {
             {isDarkMode ? <CiLight /> : <CiDark />}
           </button>
         </div>
-        <div className="dropdown dropdown-end">
-          <Image
-            alt="logo"
-            width="50"
-            height="50"
-            tabIndex={0}
-            role="button"
-            title="Profile"
-            src="/image-placeholder.jpg"
-            className="w-10 lg:w-12 bg-white aspect-square object-center mr-2 md:mr-4 rounded-full ring ring-teal-400 hover:scale-95 dark:ring-gray-400"
-          />
-          <ul
-            tabIndex={0}
-            className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 mt-4 bg-gradient-to-br from-green-50 dark:from-gray-700 via-pink-50 dark:via-gray-800 to-sky-50 dark:to-gray-700 dark:text-white dark:border-gray-500"
-          >
-            <li className="dark:hover:bg-gray-400/30 rounded-md">
-              <Link
-                href="/dashboard/admin"
-                className={
-                  pathname === "/dashboard/admin"
-                    ? "bg-teal-200/50 text-teal-700 dark:text-teal-400 dark:bg-teal-700/50 font-semibold hover:cursor-not-allowed"
-                    : ""
-                }
-              >
-                Admin Dashboard
-              </Link>
-            </li>
-          </ul>
-        </div>
+        {user?.email && (
+          <div className="dropdown dropdown-end">
+            <Image
+              alt="logo"
+              width="50"
+              height="50"
+              tabIndex={0}
+              role="button"
+              title="Profile"
+              src={user?.image}
+              className="w-10 lg:w-12 bg-white aspect-square object-center mr-2 md:mr-4 rounded-full ring ring-teal-400 hover:scale-95 dark:ring-gray-400"
+            />
+            <ul
+              tabIndex={0}
+              className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 mt-4 bg-gradient-to-br from-green-50 dark:from-gray-700 via-pink-50 dark:via-gray-800 to-sky-50 dark:to-gray-700 dark:text-white dark:border-gray-500"
+            >
+              <li className="dark:hover:bg-gray-400/30 rounded-md">
+                <Link
+                  href="/dashboard/admin"
+                  className={
+                    pathname === "/dashboard/admin"
+                      ? "bg-teal-200/50 text-teal-700 dark:text-teal-400 dark:bg-teal-700/50 font-semibold hover:cursor-not-allowed"
+                      : ""
+                  }
+                >
+                  Admin Dashboard
+                </Link>
+              </li>
+              <li className="dark:hover:bg-gray-400/30 rounded-md">
+                <button className="btn btn-sm" onClick={logout}>
+                  Logout
+                </button>
+              </li>
+            </ul>
+          </div>
+        )}
       </div>
     </nav>
   );

@@ -27,6 +27,7 @@ const Login = () => {
 
       toast.success("Logged in successfully!", { id: toastId });
       e.target.reset();
+      window.location.reload();
     } catch (err) {
       toast.error("Something went wrong. Please try again.", {
         id: toastId,
