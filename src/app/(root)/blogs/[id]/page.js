@@ -83,7 +83,7 @@ export default async function Blog({ params }) {
           <div className="mt-4 flex flex-row gap-4">
             <div className="avatar">
               <div className="w-12 rounded-full bg-white dark:bg-gray-700 drop-shadow-sm border">
-                <Image
+                <img
                   width={52}
                   height={52}
                   alt="author"
